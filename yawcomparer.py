@@ -2,6 +2,7 @@ import re
 import sys
 import matplotlib.pyplot as plt
 import time
+import math
 
 if len(sys.argv) != 2:
     print('No input log file')
@@ -21,6 +22,9 @@ odometer_list = re.findall(
 
 confidence_list = re.findall(
     '\[(.*?)\..*\]\[.*confidence:(.*?)\n', log_file_str)
+
+cmd_list = re.findall(
+    '\[(.*?)\..*\].*"w" : (.*?) }\n', log_file_str)
 
 yaw_list = re.findall('yaw: (.*?), timestamp: (.*?)\n', log_file_str)
 
@@ -42,16 +46,46 @@ for con in confidence_list:
     confi += [float(con[1])]
     confi_t_ms += [tempT]
 
+cmd_w_radps = []
+cmd_t_ms = []
+
+# print(cmd_list)
+
+for cmd in cmd_list:
+    timeArray = time.strptime(cmd[0], "%Y-%m-%d %H:%M:%S")
+    tempT = time.mktime(timeArray) * 1000.0 - time_stamp_offset_ns / 1000000.0
+    if(tempT < -1e10):
+        print('invalid confidence point:' + str(cmd))
+        continue
+
+    # print(cmd[1])
+    # sys.stdout.flush()
+    cmd_w_radps += [float(cmd[1])]
+    cmd_t_ms += [tempT]
+
+# print(cmd_t_ms)
 
 yaw_rad = []
 yaw_t_ms = []
+rad_offset = 0
+yaw_base_offset_rad = float(yaw_list[100][0])
 for cmd in yaw_list:
     tempT = (float(cmd[1]) - time_stamp_offset_ns) / 1000000
     if(tempT < -1e10):
         print('invalid yaw point:' + str(cmd))
         continue
     yaw_t_ms += [tempT]
-    yaw_rad += [float(cmd[0])]
+    if(len(yaw_rad) > 1):
+        tempyaw = float(cmd[0]) + rad_offset
+        if((tempyaw - yaw_rad[-1]) > math.pi):
+            rad_offset -= 2 * math.pi
+        elif ((tempyaw - yaw_rad[-1]) < -math.pi):
+            rad_offset += 2 * math.pi
+
+        yaw_rad += [float(cmd[0]) + rad_offset - yaw_base_offset_rad]
+        # yaw_rad += [float(cmd[0])]
+    else:
+        yaw_rad += [float(cmd[0]) - yaw_base_offset_rad]
 
 
 # print(cmd_t_ms)
@@ -63,6 +97,8 @@ theta_rad = []
 vx_mps = [0]
 vy_mps = [0]
 v_mps = [0]
+rad_offset = 0
+theta_base_offset_rad = float(odometer_list[100][3])
 for v in odometer_list:
     tempT = (float(v[0]) - time_stamp_offset_ns) / 1000000
     if(tempT < -1e10):
@@ -71,7 +107,19 @@ for v in odometer_list:
     t_ms += [tempT]
     x_m += [float(v[1])]
     y_m += [float(v[2])]
-    theta_rad += [float(v[3])]
+
+    if(len(theta_rad) > 1):
+        tempyaw = float(v[3]) + rad_offset
+        if((tempyaw - theta_rad[-1]) > math.pi):
+            rad_offset -= 2 * math.pi
+        elif ((tempyaw - theta_rad[-1]) < -math.pi):
+            rad_offset += 2 * math.pi
+
+        theta_rad += [float(v[3]) + rad_offset - theta_base_offset_rad]
+        # theta_rad += [float(v[3])]
+    else:
+        theta_rad += [float(v[3]) - theta_base_offset_rad]
+
     if(len(x_m) > 1):
         vx_mps += [(x_m[-1] - x_m[-2]) / (t_ms[-1] - t_ms[-2]) * 1000]
         vy_mps += [(y_m[-1] - y_m[-2]) / (t_ms[-1] - t_ms[-2]) * 1000]
@@ -88,5 +136,6 @@ for v in odometer_list:
 # plt.plot(t_ms, x_m, t_ms, v_mps)
 # plt.plot(cmd_t_ms, cmd_vx_mps)
 # plt.plot(t_ms, vx_mps, cmd_t_ms, cmd_vx_mps, '.')
-plt.plot(t_ms, theta_rad, 'y', yaw_t_ms, yaw_rad, 'g', confi_t_ms, confi)
+plt.plot(t_ms, theta_rad, 'y', yaw_t_ms, yaw_rad, 'g',
+         confi_t_ms, confi, 'b', cmd_t_ms, cmd_w_radps, 'r')
 plt.show()
