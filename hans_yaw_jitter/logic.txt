@@ -1,0 +1,10 @@
+1. wheelradius	r
+2. vehicle speed vx
+
+vx * 1s = 2 * pi * r
+
+vx * t = 2 * pi * r * n
+vx = omega * r
+
+omega = vx/r
+T = 2*pi / omega = 2 * pi * r / vx
