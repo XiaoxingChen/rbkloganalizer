@@ -145,6 +145,6 @@ for v in odometer_list:
 # plt.plot(t_ms, vx_mps, cmd_t_ms, cmd_vx_mps, '.')
 # plt.plot(t_ms, theta_rad, 'y', yaw_t_ms, yaw_rad, 'g',
 #          confi_t_ms, confi, 'b', cmd_t_ms, cmd_w_radps, 'r')
-plt.plot(t_ms, wheelphase, 'y', t_ms, theta_rad, 'b')
-# plt.plot(t_ms, theta_rad, 'y')
+# plt.plot(t_ms, wheelphase, 'y', t_ms, theta_rad, 'b')
+plt.plot(t_ms, theta_rad, 'y.')
 plt.show()

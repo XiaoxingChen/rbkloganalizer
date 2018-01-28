@@ -1,0 +1,26 @@
+        "width": 0.517,               // 宽, m [0, 4]
+        "head": 0.36,                // 头, m [0, 2]
+        "tail": 0.3,                // 尾, m [0, 2]
+        "mode": 1,                  // 运动方式, 1 = 差动
+        "wheelbase": 0.436,           // 轴距, m [0, 1]
+        "wheelRadius": 0.075,       // 轮半径, m [0, 1]
+        "reductionRatio": 30,       // 减速比(浮点数) [1, 50]
+        "encoderLine": 2500,        // 编码器线数(整数) [0, 5000]
+        "maxMotorRpm": 3000,        // 电机最大转速(整数) [0, 10000]
+        "inverse": true,           // 前后左右反转
+        "driver": 2,                // 驱动器类型, 1 = Copley[232], 2 = SeerDriverBoard, 3 = Copley[CanOpen], 4 = SeerDriverBoard(Hall)
+        "useDecelerateArea": true,  // 是否启用全局减速多边形
+        "useStopArea": true,        // 是否启用全局停障多边形
+        "useSafeArea": true,        // 是否启用全局安全多边形
+
+0.5m/s
+轮子线速度v = 0.5m/s
+omega = v/r = 0.5m/s / 0.075m = 6.6667rad/s
+omega_motor = omega * reduce = 200rad/s = 31.83rps
+encoderline = 2500
+10000ppr
+
+freq = 10000ppr * 31.83rps = 318300pps
+
+638p/318300pps = 0.0020044s = 2.004ms
+
