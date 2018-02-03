@@ -1,12 +1,12 @@
 # Robokit log analyzer
-    Python codes for robot motion analyze
+Python codes for robot motion analyze
 
 # Table of Contents
 
-    * [Requirements](#Requirements)
-    * [Components](#Components)
-        * [Log Ojects](#Log Objects)
-    * [Yaw Comparer](#yaw Comparer)
+   * [Requirements](#Requirements)
+   * [Components](#Components)
+      * [Log Ojects](#Log Objects)
+   * [Yaw Comparer](#yaw Comparer)
 
 # Requirements
 
