@@ -21,7 +21,7 @@ For example, MCLoc information is a log object. Besides, IMU infomation, odomete
 
 # Yaw Comparer
 
-![example](https://github.com/XiaoxingChen/rbkloganalizer/tree/master/yawcomparer/compareEx.png)
+![example](https://github.com/XiaoxingChen/rbkloganalizer/blob/master/yawcomparer/compareEx.png)
 
 This is an example for comparing the yaw angle from:
 1. IMU log
