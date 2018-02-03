@@ -5,8 +5,8 @@ Python codes for robot motion analyze
 
    * [Requirements](#Requirements)
    * [Components](#Components)
-      * [Log Ojects](#Log Objects)
-   * [Yaw Comparer](#yaw Comparer)
+      * [Log Ojects](#log-objects)
+   * [Yaw Comparer](#yaw-comparer)
 
 # Requirements
 
