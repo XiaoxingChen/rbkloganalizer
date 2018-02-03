@@ -1,13 +1,15 @@
 import re
 import sys
+
 import matplotlib.pyplot as plt
 from time import clock
 import math
 import matplotlib.dates as mdates
+sys.path.append('../')
 from components.objlog import LocLog
 from components.objlog import OdomLog
 from components.objlog import ImuLog
-# import components.rbkkeywordparser
+
 if len(sys.argv) != 2:
     print('No input log file')
     input('press enter to exit...')
@@ -22,7 +24,6 @@ if tail != '.log':
 starttime = clock()
 
 log_file = open(file_name, 'r', encoding='utf-8')
-# log_file_str = log_file.read()
 
 print('Read file cost time: %fs' % (clock() - starttime))
 starttime = clock()
@@ -46,6 +47,7 @@ starttime = clock()
 loc = loglist[0].parse()
 loc_t = loc[0]
 loc_theta = loc[3]
+loc_conf = loc[4]
 
 odom = loglist[1].parse()
 odom_t = odom[0]
@@ -53,12 +55,33 @@ theta_rad = odom[3]
 
 (yaw_t, yaw) = loglist[2].parse()
 
-plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
+# plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
+
+fig = plt.figure()
+ax1 = fig.add_subplot(111)
+
 # Plot
-plt.plot(yaw_t, yaw, 'y-', odom_t, theta_rad, 'b', loc_t, loc_theta, 'r')
-# plt.plot(loc_t, loc_theta, 'b', odom_t, theta_rad, 'r')
-plt.gcf().autofmt_xdate()  # 自动旋转日期标记
+ax1.plot(yaw_t, yaw, 'y-', label='imu')
+ax1.plot(odom_t, theta_rad, 'k', label='odom')
+ax1.plot(loc_t, loc_theta, 'r', label='loc')
+ax1.set_ylabel('Yaw/rad (1deg = 0.017rad)')
+ax1.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
+ax1.legend()
+fig.autofmt_xdate()
+
+ax2 = ax1.twinx()
+ax2.plot(loc_t, loc_conf, 'b', label='confidence', alpha=0.5)
+ax2.set_ylabel('Confidence')
+ax2.set_xlabel('Time')
+ax2.legend()
+
+# plt.gcf().autofmt_xdate()  # 自动旋转日期标记
 
 print('plot cost time: %fs' % (clock() - starttime))
 starttime = clock()
+
+plt.title('Yaw comparer')
+
+
+# plt.legend()
 plt.show()
