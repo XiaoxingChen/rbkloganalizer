@@ -20,7 +20,8 @@ This is a class for log objects.
 For example, MCLoc information is a log object. Besides, IMU infomation, odometer infomations are also log objects.
 
 # Yaw Comparer
-![2](img src="https://github.com/XiaoxingChen/rbkloganalizer/tree/master/yawcomparer/compareEx.png")
+![](img src="https://github.com/XiaoxingChen/rbkloganalizer/tree/master/yawcomparer/compareEx.png")  
+
 This is an example for comparing the yaw angle from:
 1. IMU log
 2. Odometer log
