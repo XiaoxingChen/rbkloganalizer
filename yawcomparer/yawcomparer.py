@@ -56,14 +56,18 @@ for key in logd:
 # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
 
 fig = plt.figure()
-ax1 = fig.add_subplot(211)
+ax1 = fig.add_subplot(111)
 
 # Plot
 ax1.plot(logd['imu'].t(), logd['imu'].theta(), 'y-.', label='imu')
 # ax1.plot(logd['odom'].t(), logd['odom'].x(), 'k-.', label='odom_x')
+ax1.plot(logd['vcmd'].t(), logd['vcmd'].omega(), 'g.-',
+         label='vcmd', markersize=0.8, linewidth=0.5)
 ax1.plot(logd['odom'].t(), logd['odom'].theta(), 'k:', label='odom')
 ax1.plot(logd['loc'].t(), logd['loc'].theta(), 'r--', label='loc')
-ax1.plot(logd['vcmd'].t(), logd['vcmd'].omega(), 'r.-', label='vcmd')
+ax1.plot(logd['odom'].t(), logd['odom'].stopped(),
+         'b-', label='stopped', alpha=0.5, linewidth=0.5)
+
 # ax1.plot(logd['imu'].t(), logd['imud'].accx(), 'y--', label='imu-accx')
 ax1.set_ylabel('Yaw/rad (1deg = 0.017rad)')
 ax1.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
@@ -71,8 +75,8 @@ ax1.legend()
 fig.autofmt_xdate()
 
 ax2 = ax1.twinx()
-ax2.plot(logd['loc'].t(), logd['loc'].confidence(),
-         'b', label='confidence', alpha=0.5)
+# ax2.plot(logd['loc'].t(), logd['loc'].confidence(),
+#  'b', label='confidence', alpha=0.5)
 ax2.set_ylabel('Confidence')
 ax2.set_xlabel('Time')
 ax2.legend()

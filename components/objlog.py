@@ -84,7 +84,7 @@ class OdomLog(object):
         t0 = clock()
 
         raw = [(datetime.fromtimestamp(float(v[0]) / 1e9), float(v[1]),
-                float(v[2]), float(v[3]), (v[4] is 'true'))
+                float(v[2]), float(v[3]), ((v[4] == 'true') and [1] or [0])[0])
                for v in self.matchlist if timestampvalid(v[0])]
         ret = list(zip(*raw))
         ret[3] = list(ret[3])
@@ -149,9 +149,11 @@ class ImuDetailLog(object):
         if(len(self.matchlist) == 0):
             return
 
+        Koff = math.pi / 180 / 16.4
         t0 = clock()
-        raw = [(float(v[0]), float(v[1]), float(v[2]), float(v[3]),
-                float(v[4]), float(v[5]), float(v[6]), float(v[7]), float(v[8]))
+        raw = [(float(v[0]), float(v[1]), float(v[2]),
+                float(v[3]), float(v[4]), float(v[5]),
+                float(v[6]) * Koff, float(v[7]) * Koff, float(v[8]) * Koff)
                for v in self.matchlist]
 
         ret = list(zip(*raw))

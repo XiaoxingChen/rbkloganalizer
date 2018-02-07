@@ -59,13 +59,13 @@ ax1 = fig.add_subplot(311)
 
 # Plot Acc
 ax1.plot(logd['imu'].t(), logd['imud'].accx(),
-         'r--', label='ax', alpha=0.8)
+         'r', label='ax', linewidth=0.5)
 ax1.plot(logd['imu'].t(), logd['imud'].accy(),
-         'g--', label='ay', alpha=0.8)
+         'g', label='ay', linewidth=0.5)
 ax1.plot(logd['imu'].t(), logd['imud'].accz(),
-         'b--', label='az', alpha=0.8)
+         'b', label='az', linewidth=0.5)
 
-ax1.set_ylabel('Acc (m/s^2)')
+ax1.set_ylabel('$Acc (m/s^2)$')
 ax1.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
 plt.setp(ax1.get_xticklabels(), visible=False)
 ax1.legend()
@@ -73,11 +73,11 @@ ax1.legend()
 # Plot Rot
 ax2 = fig.add_subplot(312, sharex=ax1)
 ax2.plot(logd['imu'].t(), logd['imud'].rotx(),
-         'r:', label='wx', alpha=0.8)
+         'r', label='wx', linewidth=0.5)
 ax2.plot(logd['imu'].t(), logd['imud'].roty(),
-         'g:', label='wy', alpha=0.8)
+         'g', label='wy', linewidth=0.5)
 ax2.plot(logd['imu'].t(), logd['imud'].rotz(),
-         'b:', label='wz', alpha=0.8)
+         'b', label='wz', linewidth=0.5)
 
 ax2.set_ylabel('Rot (rad/s)')
 ax2.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
@@ -88,11 +88,11 @@ ax2.legend()
 # Plot Rot
 ax3 = fig.add_subplot(313, sharex=ax1)
 ax3.plot(logd['imu'].t(), logd['imud'].offx(),
-         'r:', label='offx', alpha=0.8)
+         'r', label='offx', alpha=0.8)
 ax3.plot(logd['imu'].t(), logd['imud'].offy(),
-         'g:', label='offy', alpha=0.8)
+         'g', label='offy', alpha=0.8)
 ax3.plot(logd['imu'].t(), logd['imud'].offz(),
-         'b:', label='offz', alpha=0.8)
+         'b', label='offz', alpha=0.8)
 
 ax3.set_ylabel('Rot offset (rad/s)')
 ax3.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
