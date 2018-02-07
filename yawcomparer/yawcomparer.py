@@ -11,6 +11,7 @@ from components.objlog import OdomLog
 from components.objlog import ImuLog
 from components.objlog import ErrorCodeLog
 from components.objlog import ImuDetailLog
+from components.objlog import CommandLog
 
 if len(sys.argv) != 2:
     print('No input log file')
@@ -32,7 +33,7 @@ starttime = clock()
 
 loglist = [LocLog(), OdomLog(), ImuLog(), ErrorCodeLog()]
 logd = {'loc': LocLog(), 'odom': OdomLog(), 'imu': ImuLog(),
-        'imud': ImuDetailLog()}
+        'imud': ImuDetailLog(), 'vcmd': CommandLog()}
 
 print('Findall in file...')
 cnt = 0
@@ -55,13 +56,14 @@ for key in logd:
 # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))
 
 fig = plt.figure()
-ax1 = fig.add_subplot(111)
+ax1 = fig.add_subplot(211)
 
 # Plot
 ax1.plot(logd['imu'].t(), logd['imu'].theta(), 'y-.', label='imu')
 # ax1.plot(logd['odom'].t(), logd['odom'].x(), 'k-.', label='odom_x')
 ax1.plot(logd['odom'].t(), logd['odom'].theta(), 'k:', label='odom')
 ax1.plot(logd['loc'].t(), logd['loc'].theta(), 'r--', label='loc')
+ax1.plot(logd['vcmd'].t(), logd['vcmd'].omega(), 'r.-', label='vcmd')
 # ax1.plot(logd['imu'].t(), logd['imud'].accx(), 'y--', label='imu-accx')
 ax1.set_ylabel('Yaw/rad (1deg = 0.017rad)')
 ax1.xaxis.set_major_formatter(mdates.DateFormatter('%H:%M:%S.%f'))

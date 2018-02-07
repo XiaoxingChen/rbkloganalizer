@@ -114,9 +114,11 @@ class ImuLog(object):
         self.matchlist = []
         self.result = [[0]] * 2
         self.expression = '.*yaw: (.*?), timestamp: (.*?)\n'
+        # self.expression = '.*yaw: (.*?)timestamp: (.*?)\n'
 
     def parse(self):
         if(len(self.matchlist) == 0):
+            print('No data match for IMU')
             return
 
         t0 = clock()
@@ -204,3 +206,31 @@ class ErrorCodeLog(object):
 
         print('Error code parse finished, cost %fs...' % (clock() - t0))
         return ret
+
+
+class CommandLog(object):
+    def __init__(self):
+        self.matchlist = []
+        self.result = [[0]] * 4
+        self.expression = '\[(.*?)].*{ "vx" : (.*?), "vy" : (.*?), "w" : (.*?) }\n'
+
+    def parse(self):
+        if(len(self.matchlist) == 0):
+            return
+
+        # print(self.matchlist)
+        t0 = clock()
+        raw = [(rbktimetodate(v[0]), float(v[1]), float(v[2]),
+                float(v[3]) * 10)for v in self.matchlist]
+        ret = list(zip(*raw))
+
+        self.result = ret
+        print('Velocity command keyword parse finished, cost %fs...' %
+              (clock() - t0))
+        return ret
+
+    def omega(self):
+        return self.result[3]
+
+    def t(self):
+        return self.result[0]
