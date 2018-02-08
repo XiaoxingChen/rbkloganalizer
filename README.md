@@ -7,6 +7,7 @@ Python codes for robot motion analyze
    * [Components](#Components)
       * [Log Ojects](#log-objects)
    * [Yaw Comparer](#yaw-comparer)
+   * [IMU Detail](#imu-detail)
 
 # Requirements
 
@@ -29,3 +30,13 @@ This is an example for comparing the yaw angle from:
 3. Location after using laser
 
 The confidence of the location will also be plotted on to the figure.
+
+# IMU Detail
+
+![example](https://github.com/XiaoxingChen/rbkloganalizer/blob/master/imudetail/detailEx.png)
+
+There are three subplots in IMU details.
+1. The compensated acceleration in three axis of the acceleration sensor
+2. The rotate velocity in three axis of the gyroscope
+3. The acceleration offset
+
